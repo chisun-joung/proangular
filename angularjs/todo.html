@@ -14,6 +14,7 @@
 
             todoApp.run(function($http){
                 $http.get("todo.json").success(function(data) {
+                    
                     model.items = data;
                 });
             });
