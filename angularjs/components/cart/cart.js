@@ -7,7 +7,7 @@ angular.module("cart",[])
             var addedToExistingItem = false;
             for(var i = 0; i < cartData.length; i++) {
                 if(cartData[i].id == id) {
-                    carData[i].count++;
+                    cartData[i].count++;
                     addedToExistingItem = true;
                     break;
                 }
@@ -44,14 +44,14 @@ angular.module("cart",[])
             $scope.total = function() {
                 var total = 0;
                 for(var i = 0; i < cartData.length; i++) {
-                    total += (cartData[i].price * carData [i].count);
+                    total += (cartData[i].price * cartData [i].count);
                 }
                 return total;
             }
 
             $scope.itemCount = function() {
                 var total = 0;
-                for(var i = 0; i < cartData.lendth; i++) {
+                for(var i = 0; i < cartData.length; i++) {
                     total += cartData[i].count;
                 }
                 return total;
