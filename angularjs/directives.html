@@ -21,13 +21,20 @@
     <body>
         <div id="todoPanel" class="panel" ng-controller="defaultCtrl">
             <h3 class="panel-header"> To Do List </h3>
-            <div class="well">
-                <div>The first itme is : {{todos[0].action}}</div>
-            </div>
-            <div class="form-group well">
-                <label for="firstItem">Set First Item:</label>
-                <input name="firstItem" class="form-control" ng-model="todos[0].action" />
-            </div>            
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Action</th>
+                        <th>Done</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in todos">
+                        <td>{{item.action}}</td>
+                        <td>{{item.complete}}</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </body>
 </html>
