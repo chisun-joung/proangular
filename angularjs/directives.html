@@ -29,9 +29,10 @@
                 });
         </script>
         <style>
+            td > *:first-child {font-weight: bold}
             .odd { background-color: lightcoral}
             .even { background-color: lavenderblush}
-            td > *:first-child {font-weight: bold}
+            
         </style>
     </head>
     <body>
@@ -65,15 +66,15 @@
                     </table>
                 </div>
                 <div ng-switch-when="List">
-                    <ol>
-                        <li ng-repeat="item in todos">
+                    <table class="table">
+                        <tr ng-repeat="item in todos">
                             <td>{{item.action}}</td>
                             <td>
                                 <span ng-hide="item.complete">(Incomplete)</span>
                                 <span ng-show="item.complete">(Done)</span>
                             </td>
-                        </li>
-                    </ol>
+                        </tr>
+                    </table>
                 </div>
                 <div ng-switch-default>
                     Select another option to display a layout
