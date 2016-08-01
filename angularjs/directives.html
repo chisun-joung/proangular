@@ -31,6 +31,7 @@
         <style>
             .odd { background-color: lightcoral}
             .even { background-color: lavenderblush}
+            td > *:first-child {font-weight: bold}
         </style>
     </head>
     <body>
@@ -45,7 +46,12 @@
                     </label>
                 </div>    
             </div>
-
+            <div class="checkbox well">
+                <label>
+                    <input type="checkbox" ng-model="todos[2].complete" />
+                    Item 3 is complete
+                </label>
+            </div>
             <div ng-switch on="data.mode" ng-cloak>
                 <div ng-switch-when="Table">
                     <table class="table">
@@ -61,7 +67,11 @@
                 <div ng-switch-when="List">
                     <ol>
                         <li ng-repeat="item in todos">
-                            {{item.action}}<span ng-if="item.complete"> (Done)</span>
+                            <td>{{item.action}}</td>
+                            <td>
+                                <span ng-hide="item.complete">(Incomplete)</span>
+                                <span ng-show="item.complete">(Done)</span>
+                            </td>
                         </li>
                     </ol>
                 </div>
