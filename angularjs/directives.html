@@ -32,6 +32,8 @@
                     }
 
                     $scope.message = "Tap Me!";
+
+                    $scope.dataValue = false;
                 })
                 .directive("tap", function() {
                     return function(scope, elem, attrs) {
@@ -75,6 +77,15 @@
             <div class="well" tap="message = 'Tapped!'">
                 {{message}}
             </div>
+
+            <div class="checkbox well">
+                <label>
+                    <input type="checkbox" ng-model="dataValue">
+                    Set the Data Value
+                </label>
+            </div>
+            <button class="btn btn-success" ng-disabled="dataValue">My Button</button>
+
         </div>
     </body>
 </html>
