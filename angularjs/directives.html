@@ -30,6 +30,15 @@
                         console.log("Event type: " + e.type);
                         $scope.data.columnColor = e.type == "mouseover" ? "Green" : "Blue";
                     }
+
+                    $scope.message = "Tap Me!";
+                })
+                .directive("tap", function() {
+                    return function(scope, elem, attrs) {
+                        elem.on("touchstart touchend", function() {
+                            scope.$apply(attrs["tap"]);
+                        });
+                    }
                 });
         </script>
         <style>
@@ -63,7 +72,9 @@
                     </tr>
             </table>
             
-            
+            <div class="well" tap="message = 'Tapped!'">
+                {{message}}
+            </div>
         </div>
     </body>
 </html>
