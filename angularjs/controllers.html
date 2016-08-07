@@ -5,51 +5,46 @@
     <script src="angular.js"></script>
     <link href="bootstrap.css" rel="stylesheet" />
     <link href="bootstrap-theme.css" rel="stylesheet" />
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js">
+        </script>
+    <link rel="stylesheet" href=
+   "http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/sunny/jquery-ui.min.css">
     <script>
+
+        $(document).ready(function() {
+            $('#jqui buttion').button().click(function(e){
+                alert("jQuery UI button was clicked");
+            });
+        });
+
         var app = angular.module("exampleApp", []);
  
-        app.controller("firstController", function ($scope) {
+        app.controller("simpleCtrl", function ($scope) {
  
-            $scope.dataValue = "Hello, Adam";
+            $scope.buttonEnabled = true;
  
-            $scope.reverseText = function () {
-                $scope.dataValue = $scope.dataValue.split("").reverse().join("");
+            $scope.clickCounter = 0;
+            $scope.handleClick = function() {
+                $scope.clickCounter++;
             }
-        });
- 
-        app.controller("secondController", function ($scope) {
- 
-            $scope.dataValue = "Hello, Jacqui";
- 
-            $scope.changeCase = function () {
-                $scope.dataValue = $scope.dataValue.toUpperCase();
-            };
         });
     </script>
 </head>
 <body>
-    <div class="well" ng-controller="firstController">
-        <h4>First Controller</h4>
-        <div class="input-group">
-            <span class="input-group-btn">
-                <button class="btn btn-default" type="button"
-                        ng-click="reverseText()">Reverse</button>
-            </span>
-            <input class="form-control" ng-model="dataValue">
+    <div id="angularRegion" class="well" ng-controller="simpleCtrl">
+        <h4>AngularJS</h4>
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" ng-model="buttonEnabled">Enable Button
+            </label>
         </div>
+        Click counter: {{clickCounter}}
     </div>
  
-    <div class="well" ng-controller="secondController">
-        <h4>Second Controller</h4>
-        <div class="input-group">
-            <span class="input-group-btn">
-                <button class="btn btn-default" type="button"
-                        ng-click="changeCase()">
-                    Case
-                </button>
-            </span>
-            <input class="form-control" ng-model="dataValue">
-        </div>
+    <div id="jqui" class="well" >
+        <h4>jQuery UI</h4>
+        <button>Click Me!</button>
     </div>
 </body>
 </html>
