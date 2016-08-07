@@ -13,8 +13,8 @@
     <script>
 
         $(document).ready(function() {
-            $('#jqui buttion').button().click(function(e){
-                alert("jQuery UI button was clicked");
+            $('#jqui button').button().click(function(e){
+                angular.element(angularRegion).scope().$apply('handleClick()');
             });
         });
 
@@ -28,6 +28,12 @@
             $scope.handleClick = function() {
                 $scope.clickCounter++;
             }
+
+            $scope.$watch('buttonEnabled', function(newValue) {
+                $('#jqui button').button({
+                    disabled: !newValue
+                });
+            });
         });
     </script>
 </head>
