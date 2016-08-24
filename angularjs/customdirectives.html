@@ -19,9 +19,11 @@
                                     listElem.append(itemElement);
                                     var index = i;
                                     var watcherFn = function(watchScope) {
+                                        console.log("watcherFn");
                                         return watchScope.$eval(propertyExpression,data[index]);
                                     }
                                     scope.$watch(watcherFn, function (newValue, oldValue) {
+                                        console.log(newValue);
                                         itemElement.text(newValue);
                                     });
                                 }());
@@ -34,14 +36,18 @@
                     $scope.products = [
                         { name: "Apples", category:"Fruit", price: 1.20 , expiry : 10 },
                         { name: "Bananas", category: "Fruit", price: 2.42, expiry : 7 },
-                        { name: "Pears", category: "Fruit", price: 2.02, expiry : 6 }
+                        { name: "Pears", category: "Fruit", price: 2.02, expiry : 6 },
+                         { name: "Pears", category: "Fruit", price: 2.02, expiry : 6 }
                     ];
 
                     $scope.incrementPrices = function() {
-                        console.log("incrementPrices");
                         for(var i = 0; i < $scope.products.length; i++) {
-                            console.log($scope.products[i].price++);
+                            $scope.products[i].price++;
                         }
+                    };
+
+                    $scope.test = function() {
+
                     }
                 });
         </script>
@@ -54,6 +60,9 @@
             <div class="panel-body">
                 <button class="btn btn-primary" ng-click="incrementPrices()">
                     Change Prices
+                </button>
+                 <button class="btn btn-primary" ng-click="test()">
+                    Test
                 </button>
             </div>
             <div class="panel-body" >
