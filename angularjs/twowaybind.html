@@ -1,0 +1,27 @@
+<html ng-app="example">
+    <head>
+        <title> Two Way Binding </title>
+        <script src="angular.js"></script>
+        <script>
+           angular.module("example",[])
+            .controller("defaultCtrl", function($scope){
+                $scope.factor = 6;
+                $scope.$watch('factor', function(newValue){
+                    $scope.product = newValue * 2;
+                })
+            })
+        </script>
+    </head>
+    <body ng-controller="defaultCtrl">
+        <h3 class="panel-header"> Two Way Binding </h3>
+        <div>
+           <input value="factor" ng-model="factor">
+           <div> 
+               <h2>
+                   {{factor}} * 2 = {{product}}
+               </h2> 
+           </div>
+            
+        </div>
+    </body>
+</html>

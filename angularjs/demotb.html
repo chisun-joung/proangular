@@ -1,0 +1,19 @@
+<html ng-app="demo">
+    <head>
+        <title> Two Way Binding </title>
+        <script src="angular.js"></script>
+        <script>
+           angular.module("demo",[])
+            .controller("demoCtrl",function($scope){
+                $scope.demoText = "정치선 케어2"
+            })
+        </script>
+    </head>
+    <body ng-controller="demoCtrl">
+        <h3 class="panel-header"> Two Way Binding </h3>
+        <div>
+           <input name="value" ng-model="demoText">
+           <h2>{{demoText}}</h2>
+        </div>
+    </body>
+</html>
