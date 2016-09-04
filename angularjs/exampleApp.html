@@ -5,31 +5,20 @@
     <script src="angular.js"></script>
     <link href="bootstrap.css" rel="stylesheet" />
     <link href="bootstrap-theme.css" rel="stylesheet" />
+    <script src="directives.js"></script>
+    <script src="services.js"></script>
     <script>
-        angular.module("exampleApp", [])
-        .controller("defaultCtrl", function ($scope) {
-            $scope.data = {
-                cities: ["London", "New York", "Paris"],
-                totalClicks: 0
-            };
- 
-            $scope.$watch('data.totalClicks', function (newVal) {
-                console.log("Total click count: " + newVal);
+        angular.module("exampleApp", ["customDirectives", "customServices"])
+            .controller("defaultCtrl", function ($scope, logService) {
+                $scope.data = {
+                    cities: ["London", "New York", "Paris"],
+                    totalClicks: 0
+                };
+    
+                $scope.$watch('data.totalClicks', function (newVal) {
+                    logService.log("Total click count: " + newVal);
+                });
             });
-        })
-        .directive("triButton", function () {
-            return {
-                scope: { counter: "=counter" },
-                link: function (scope, element, attrs) {
-                    element.on("click", function (event) {
-                        console.log("Button click: " + event.target.innerText);
-                        scope.$apply(function () {
-                            scope.counter++;
-                        });
-                    });
-                }
-            }
-        });
     </script>
 </head>
 <body ng-controller="defaultCtrl">
