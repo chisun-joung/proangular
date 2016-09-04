@@ -9,16 +9,19 @@
     <script src="services.js"></script>
     <script>
         angular.module("exampleApp", ["customDirectives", "customServices"])
-            .controller("defaultCtrl", function ($scope, logService) {
-                $scope.data = {
-                    cities: ["London", "New York", "Paris"],
-                    totalClicks: 0
-                };
-    
-                $scope.$watch('data.totalClicks', function (newVal) {
-                    logService.log("Total click count: " + newVal);
+                .config(function(logServiceProvider){
+                    logServiceProvider.debugEnabled(true).messageCounterEnabled(false);
+                })
+                .controller("defaultCtrl", function ($scope, logService) {
+                    $scope.data = {
+                        cities: ["London", "New York", "Paris"],
+                        totalClicks: 0
+                    };
+
+                    $scope.$watch('data.totalClicks', function (newVal) {
+                        logService.log("Total click count: " + newVal);
+                    });
                 });
-            });
     </script>
 </head>
 <body ng-controller="defaultCtrl">
