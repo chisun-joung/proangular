@@ -18,6 +18,27 @@
                         });
 
                     }
+
+                    $scope.sendData = function () {
+                        var config = {
+                            headers: {
+                                "content-type" : "application/xml"
+                            },
+                            transformRequest: function(data, headers) {
+                                var rootElem = angular.element("<xml>");
+                                for(var i = 0; i < data.length; i++) {
+                                    var prodElem = angular.element("<product>");
+                                    prodElem.attr("name", data[i].name);
+                                    prodElem.attr("category", data[i].category);
+                                    prodElem.attr("price", data[i].price);
+                                    rootElem.append(prodElem);
+                                }
+                                rootElem.children().wrap("<products>");
+                                return rootElem.html();
+                            }
+                        }
+                        $http.post("productData.xml", $scope.products, config);
+                    }
                 });
     </script>
 </head>
@@ -37,7 +58,10 @@
                     </tr>
                 </tbody>
             </table>
-            <p><button class="btn btn-primary" ng-click="loadData()">Load Data</button> </p>
+            <p>
+                <button class="btn btn-primary" ng-click="loadData()">Load Data</button>
+                <botton class="btn btn-primary" ng-click="sendData()">Send Data</botton>
+            </p>
         </div>
     </div>
 </body>
