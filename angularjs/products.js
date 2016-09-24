@@ -1,7 +1,7 @@
 /**
  * Created by csjoung on 2016. 9. 23..
  */
-angular.module("exampleApp",[])
+angular.module("exampleApp",["increment"])
     .constant("baseUrl", "http://localhost:5500/products/")
     .controller("defaultCtrl", function($scope, $http, baseUrl){
         $scope.displayMode = "list";
