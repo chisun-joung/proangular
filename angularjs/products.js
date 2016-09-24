@@ -18,22 +18,39 @@ angular.module("exampleApp",[])
         }
 
         $scope.deleteProduct = function (product) {
-            $scope.products.splice($scope.products.indexOf(product), 1);
+            $http({
+                method: "DELETE" ,
+                url: baseUrl + product.id
+            }).success(function () {
+                $scope.products.splice($scope.products.indexOf(product), 1);
+            });
+
         }
 
         $scope.createProduct = function (product) {
-            $scope.products.push(product);
-            $scope.displayMode = "list";
+            $http.post(baseUrl, product).success(function (newProduct){
+                $scope.products.push(newProduct);
+                $scope.displayMode = "list";
+            });
+
         }
 
         $scope.updateProduct = function (product) {
-            for(var i = 0; i < $scope.products.length; i++) {
-                if($scope.products[i].id == product.id) {
-                    $scope.products[i] = product;
-                    break;
+            $http({
+                url: baseUrl + product.id,
+                method: "PUT",
+                data: product
+            }).success(function (modifiedProduct) {
+                for(var i = 0; i < $scope.products.length; i++) {
+                    if($scope.products[i].id == modifiedProduct.id) {
+                        $scope.products[i] = modifiedProduct;
+                        break;
+                    }
                 }
-            }
-            $scope.displayMode = "list";
+                $scope.displayMode = "list";
+            });
+
+
         }
 
         $scope.editOrCreateProduct = function (product) {
