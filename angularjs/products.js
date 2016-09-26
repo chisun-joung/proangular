@@ -1,34 +1,48 @@
 /**
  * Created by csjoung on 2016. 9. 23..
  */
-angular.module("exampleApp",["increment"])
+angular.module("exampleApp",["increment", "ngResource"])
     .constant("baseUrl", "http://localhost:5500/products/")
-    .controller("defaultCtrl", function($scope, $http, baseUrl){
+    .controller("defaultCtrl", function($scope, $http, $resource, baseUrl){
         $scope.displayMode = "list";
         $scope.currentProduct = null;
+
+        $scope.productsResource = $resource(baseUrl + ":id", { id: "@id"});
 
         $scope.listProducts = function() {
             /*$scope.products = [
                 {id: 0, name: "Dummy1", category: "Test", price: 1.25},
                 {id: 1, name: "Dummy2", category: "Test", price: 2.45},
                 {id: 3, name: "Dummy3", category: "Test", price: 4.25}];*/
-            $http.get(baseUrl).success(function (data) {
+            /*$http.get(baseUrl).success(function (data) {
                 $scope.products = data;
-            })
+            })*/
+
+            $scope.products = $scope.productsResource.query();
         }
 
         $scope.deleteProduct = function (product) {
-            $http({
+           /* $http({
                 method: "DELETE" ,
                 url: baseUrl + product.id
             }).success(function () {
                 $scope.products.splice($scope.products.indexOf(product), 1);
-            });
+            });*/
+
+           product.$delete().then(function() {
+               $scope.products.splice($scope.products.indexOf(product), 1);
+           });
+            $scope.displayMode = "list";
 
         }
 
         $scope.createProduct = function (product) {
-            $http.post(baseUrl, product).success(function (newProduct){
+            /*$http.post(baseUrl, product).success(function (newProduct){
+                $scope.products.push(newProduct);
+                $scope.displayMode = "list";
+            });*/
+
+            new $scope.productsResource(product).$save().then(function (newProduct) {
                 $scope.products.push(newProduct);
                 $scope.displayMode = "list";
             });
@@ -36,7 +50,7 @@ angular.module("exampleApp",["increment"])
         }
 
         $scope.updateProduct = function (product) {
-            $http({
+            /*$http({
                 url: baseUrl + product.id,
                 method: "PUT",
                 data: product
@@ -48,13 +62,16 @@ angular.module("exampleApp",["increment"])
                     }
                 }
                 $scope.displayMode = "list";
-            });
+            });*/
+
+            product.$save();
+            $scope.displayMode = "list";
 
 
         }
 
         $scope.editOrCreateProduct = function (product) {
-            $scope.currentProduct = product ? angular.copy(product) : {} ;
+            $scope.currentProduct = product ? product : {} ;
             $scope.displayMode = "edit";
         }
 
@@ -67,6 +84,9 @@ angular.module("exampleApp",["increment"])
         }
 
         $scope.cancelEdit = function () {
+            if($scope.currentProduct&&$scope.currentProduct.$get){
+                $scope.currentProduct.$get();
+            }
             $scope.currentProduct = {};
             $scope.displayMode = "list";
         }
