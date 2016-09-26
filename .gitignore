@@ -28,6 +28,7 @@ node_modules
 jspm_packages
 deployd
 .idea
+products
 
 # Optional npm cache directory
 .npm
