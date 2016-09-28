@@ -7,7 +7,8 @@ angular.module("exampleApp",["increment", "ngResource"])
         $scope.displayMode = "list";
         $scope.currentProduct = null;
 
-        $scope.productsResource = $resource(baseUrl + ":id", { id: "@id"});
+        $scope.productsResource = $resource(baseUrl + ":id", { id: "@id"}
+            ,{ create: {method: "POST"}, save: { method: "PUT"}});
 
         $scope.listProducts = function() {
             /*$scope.products = [
@@ -19,6 +20,9 @@ angular.module("exampleApp",["increment", "ngResource"])
             })*/
 
             $scope.products = $scope.productsResource.query();
+            console.log($scope.products.length);
+
+
         }
 
         $scope.deleteProduct = function (product) {
@@ -42,7 +46,7 @@ angular.module("exampleApp",["increment", "ngResource"])
                 $scope.displayMode = "list";
             });*/
 
-            new $scope.productsResource(product).$save().then(function (newProduct) {
+            new $scope.productsResource(product).$create().then(function (newProduct) {
                 $scope.products.push(newProduct);
                 $scope.displayMode = "list";
             });
@@ -92,4 +96,5 @@ angular.module("exampleApp",["increment", "ngResource"])
         }
 
         $scope.listProducts();
+        console.log($scope.products.length);
     });
