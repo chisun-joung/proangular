@@ -1,10 +1,29 @@
 /**
  * Created by csjoung on 2016. 9. 23..
  */
-angular.module("exampleApp",["increment", "ngResource"])
+angular.module("exampleApp",["increment", "ngResource", "ngRoute"])
     .constant("baseUrl", "http://localhost:5500/products/")
-    .controller("defaultCtrl", function($scope, $http, $resource, baseUrl){
-        $scope.displayMode = "list";
+    .config(function ($routeProvider, $locationProvider) {
+        $locationProvider.html5Mode(true);
+
+        $routeProvider.when("/list", {
+            templateUrl: "/tableView.html"
+        });
+
+        $routeProvider.when("/edit", {
+            templateUrl: "/editorView.html"
+        });
+
+        $routeProvider.when("/create", {
+            templateUrl: "/editorView.html"
+        });
+
+        $routeProvider.otherwise({
+            templateUrl: "/tableView.html"
+        });
+    })
+    .controller("defaultCtrl", function($scope, $http, $resource, $location, baseUrl){
+
         $scope.currentProduct = null;
 
         $scope.productsResource = $resource(baseUrl + ":id", { id: "@id"}
@@ -36,7 +55,7 @@ angular.module("exampleApp",["increment", "ngResource"])
            product.$delete().then(function() {
                $scope.products.splice($scope.products.indexOf(product), 1);
            });
-            $scope.displayMode = "list";
+            $location.path("/list");
 
         }
 
@@ -48,7 +67,7 @@ angular.module("exampleApp",["increment", "ngResource"])
 
             new $scope.productsResource(product).$create().then(function (newProduct) {
                 $scope.products.push(newProduct);
-                $scope.displayMode = "list";
+                $location.path("/list");
             });
 
         }
@@ -69,14 +88,14 @@ angular.module("exampleApp",["increment", "ngResource"])
             });*/
 
             product.$save();
-            $scope.displayMode = "list";
+            $location.path("/list");
 
 
         }
 
-        $scope.editOrCreateProduct = function (product) {
-            $scope.currentProduct = product ? product : {} ;
-            $scope.displayMode = "edit";
+        $scope.editProduct = function (product) {
+            $scope.currentProduct = product;
+            $location.path("/edit");
         }
 
         $scope.saveEdit = function (product) {
@@ -85,6 +104,8 @@ angular.module("exampleApp",["increment", "ngResource"])
             } else {
                 $scope.createProduct(product);
             }
+
+            $scope.currentProduct = {};
         }
 
         $scope.cancelEdit = function () {
@@ -92,7 +113,7 @@ angular.module("exampleApp",["increment", "ngResource"])
                 $scope.currentProduct.$get();
             }
             $scope.currentProduct = {};
-            $scope.displayMode = "list";
+            $location.path("/list");
         }
 
         $scope.listProducts();
