@@ -6,7 +6,10 @@ angular.module("increment",[])
         return {
             restrict: "E",
             scope: {
-                value: "=value"
+                item: "=item",
+                property: "@propertyName",
+                restful: "@restful",
+                method: "@methodName"
             },
             link: function (scope, element, attrs) {
                 var button = angular.element("<botton>").text("+");
@@ -14,7 +17,11 @@ angular.module("increment",[])
                 element.append(button);
                 button.on("click", function () {
                     scope.$apply(function () {
-                        scope.value++;
+                        scope.item[scope.property]++;
+                        if(scope.restful) {
+                            scope.item[scope.method]();
+                        }
+
                     })
                 })
             },
