@@ -10,6 +10,14 @@ angular.module("exampleApp",["increment", "ngResource", "ngRoute"])
             templateUrl: "/tableView.html"
         });
 
+        $routeProvider.when("/edit/:id", {
+            templateUrl: "/editorView.html"
+        });
+
+        $routeProvider.when("/edit/:id/:data*", {
+           templateUrl: "/editorView.html"
+        });
+
         $routeProvider.when("/edit", {
             templateUrl: "/editorView.html"
         });
@@ -22,9 +30,22 @@ angular.module("exampleApp",["increment", "ngResource", "ngRoute"])
             templateUrl: "/tableView.html"
         });
     })
-    .controller("defaultCtrl", function($scope, $http, $resource, $location, baseUrl){
+    .controller("defaultCtrl", function($scope, $http, $resource, $location, $route, $routeParams, baseUrl){
 
         $scope.currentProduct = null;
+
+        $scope.$on("$routeChangeSuccess", function () {
+            console.log($location.path());
+            if($location.path().indexOf("/edit/") == 0) {
+                var id = $routeParams["id"];
+                for(var i = 0; i < $scope.products.length; i++) {
+                    if ($scope.products[i].id == id) {
+                        $scope.currentProduct = $scope.products[i];
+                        break;
+                    }
+                }
+            }
+        });
 
         $scope.productsResource = $resource(baseUrl + ":id", { id: "@id"}
             ,{ create: {method: "POST"}, save: { method: "PUT"}});
@@ -93,10 +114,10 @@ angular.module("exampleApp",["increment", "ngResource", "ngRoute"])
 
         }
 
-        $scope.editProduct = function (product) {
+       /* $scope.editProduct = function (product) {
             $scope.currentProduct = product;
             $location.path("/edit");
-        }
+        }*/
 
         $scope.saveEdit = function (product) {
             if(angular.isDefined(product.id)){
