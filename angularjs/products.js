@@ -1,7 +1,7 @@
 /**
  * Created by csjoung on 2016. 9. 23..
  */
-angular.module("exampleApp",["increment", "ngResource", "ngRoute"])
+angular.module("exampleApp",["increment", "ngResource", "ngRoute", "ngAnimate"])
     .constant("baseUrl", "http://localhost:5500/products/")
     .factory("productsResource", function($resource, baseUrl){
         return $resource(baseUrl + ":id", { id: "@id"}
