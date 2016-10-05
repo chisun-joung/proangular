@@ -11,7 +11,7 @@ describe("Controller Test", function () {
     beforeEach(angular.mock.inject(function ($httpBackend) {
         backend = $httpBackend;
         backend.expect("GET", "productData.json").respond(
-            [{ "name": "Apples", "category": "Fruit", "price": 1.20},
+            [{ "name": "Apples", "category": "Fruit", "price": 1.22},
                 { "name": "Bananas", "category": "Fruit", "price": 2.42 },
                 { "name": "Pears", "category": "Fruit", "price": 2.02 }]);
     }));
@@ -48,6 +48,10 @@ describe("Controller Test", function () {
         expect(mockScope.products[1].name).toEqual("Bananas");
         expect(mockScope.products[2].name).toEqual("Pears");
     });
+
+    it("check received data with my flag", function () {
+        expect(mockScope.received).toBeTruthy();
+    })
 
 
 });

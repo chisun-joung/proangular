@@ -6,6 +6,7 @@ angular.module("exampleAppTest", [])
 
         $http.get("productData.json").success(function (data) {
             $scope.products = data;
+            $scope.received = true;
         })
 
         $scope.counter = 0;
