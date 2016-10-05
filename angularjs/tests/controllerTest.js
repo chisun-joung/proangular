@@ -3,8 +3,7 @@
  */
 describe("Controller Test", function () {
     //Arrange
-    var mockScope = {};
-    var controller;
+    var mockScope, controller, backend, mockInterval, mockTimeout, mockLog;
 
     beforeEach(angular.mock.module("exampleAppTest"));
 
@@ -16,14 +15,19 @@ describe("Controller Test", function () {
                 { "name": "Pears", "category": "Fruit", "price": 2.02 }]);
     }));
 
-    beforeEach(angular.mock.inject((function ($controller, $rootScope, $http) {
+    beforeEach(angular.mock.inject(function ($controller, $rootScope, $http, $interval, $timeout, $log) {
         mockScope = $rootScope.$new();
+        mockInterval = $interval;
+        mockTimeout = $timeout;
         controller = $controller("defaultCtrl", {
             $scope: mockScope,
-            $http: $http
+            $http: $http,
+            $interval: mockInterval,
+            $timeout: mockTimeout,
+            $log: mockLog
         });
         backend.flush();
-    })));
+    }));
 
     it("Creates variable", function () {
         expect(mockScope.counter).toEqual(0);
@@ -53,5 +57,20 @@ describe("Controller Test", function () {
         expect(mockScope.received).toBeTruthy();
     })
 
+    it("Limits interval to 10 updates", function() {
+        for(var i = 0; i < 11; i++) {
+            mockInterval.flush(5000);
+        }
+        expect(mockScope.intervalCounter).toEqual(10);
+    });
+
+    it("Increments timer counter", function() {
+        mockTimeout.flush(5000);
+        expect(mockScope.timerCounter).toEqual(1);
+    });
+
+    it("Writes log messages", function () {
+        expect(mockLog.log.logs.length).toEqual(1);
+    })
 
 });
