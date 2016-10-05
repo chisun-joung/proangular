@@ -19,6 +19,7 @@ describe("Controller Test", function () {
         mockScope = $rootScope.$new();
         mockInterval = $interval;
         mockTimeout = $timeout;
+        mockLog = $log;
         controller = $controller("defaultCtrl", {
             $scope: mockScope,
             $http: $http,

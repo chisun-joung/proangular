@@ -18,10 +18,44 @@ angular.module("exampleAppTest", [])
         $http.get("productData.json").success(function (data) {
             $scope.products = data;
             $scope.received = true;
+            $log.log("There are " + data.length + " items");
         })
 
         $scope.counter = 0;
         $scope.incrementCounter = function () {
             $scope.counter++;
         }
-    });
+    })
+    .filter("labelCase", function() {
+        return function (value, reverse) {
+            if(angular.isString(value)) {
+                var intermediate = reverse ? value.toUpperCase() : value.toLowerCase();
+                return (reverse ? intermediate[0].toLowerCase() : intermediate[0].toUpperCase()) + intermediate.substr(1);
+            } else {
+                return value;
+            }
+        };
+    })
+    .directive("unorderedList", function () {
+        return function (scope, element, attrs) {
+            var data = scope[attrs["unorderedList"]];
+            if(angular.isArray(data)) {
+                var listElem = angular.element("<ul>");
+                element.append(listElem);
+                for (var i = 0; i <data.length; i++) {
+                    listElem.append(angular.element('<li>').text(data[i].name));
+                }
+            }
+        }
+    })
+    .factory("counterService", function () {
+    var counter = 0;
+    return {
+        incrementCounter: function () {
+            counter++;
+        },
+        getCounter: function() {
+            return counter;
+        }
+    }
+});
